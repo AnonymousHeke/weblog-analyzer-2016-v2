@@ -100,7 +100,48 @@ public class AnalizadorAccesosAServidor
     
     public String clienteConMasAccesosExitosos()
     {
-        return "";
+        String ipMasAccesos = null;
+        int visitasIPMasAccesos = 0;
+        if (!accesos.isEmpty())
+        {
+            
+            for(Acceso accesoActual : accesos)
+            {
+                int numeroAcccesosIPActual = 0;                            
+                String ipActual = accesoActual.getIP();
+                
+                for (Acceso accesoActual2 : accesos)
+                {
+                    if(ipActual.equals(accesoActual2.getIP()) && accesoActual2.getHTTPCode() == 200)
+                    {
+                        numeroAcccesosIPActual++;
+                    }        
+                }
+                
+                if (numeroAcccesosIPActual > visitasIPMasAccesos)
+                {
+                    ipMasAccesos = ipActual;
+                    visitasIPMasAccesos = numeroAcccesosIPActual;
+                }
+                else if (numeroAcccesosIPActual == visitasIPMasAccesos)
+                {
+                    int octetoIPActual = Integer.parseInt(ipActual.split("\\.")[3]);
+                    int octetoIPMasAccesos = Integer.parseInt(ipActual.split("\\.")[3]);
+                    
+                    if (octetoIPActual > octetoIPMasAccesos)
+                    {
+                        ipMasAccesos = ipActual;
+                        visitasIPMasAccesos = numeroAcccesosIPActual;
+                    }                                       
+                }
+            }
+        }
+        else
+        {
+            System.out.println("No disponemos de datos.");
+        }
+                
+        return ipMasAccesos;
     }
 
 
