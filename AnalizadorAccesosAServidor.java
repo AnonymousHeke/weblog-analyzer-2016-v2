@@ -65,12 +65,83 @@ public class AnalizadorAccesosAServidor
     
     public String paginaWebMasSolicitada() 
     {
-        return "";
+        String paginaMasVisitada = null;
+        int visitasPaginaMasVisitada = 0;
+        if (!accesos.isEmpty())
+        {
+            
+            for(Acceso accesoActual : accesos)
+            {
+                int numeroVisitasPaginaActual = 0;                            
+                String paginaActual = accesoActual.getWeb();
+                
+                for (Acceso accesoActual2 : accesos)
+                {
+                    if(paginaActual.equals(accesoActual2.getWeb()))
+                    {
+                        numeroVisitasPaginaActual++;
+                    }        
+                }
+                
+                if (numeroVisitasPaginaActual > visitasPaginaMasVisitada)
+                {
+                    paginaMasVisitada = paginaActual;
+                    visitasPaginaMasVisitada = numeroVisitasPaginaActual;
+                }
+            }
+        }
+        else
+        {
+            System.out.println("No disponemos de datos.");
+        }
+                
+        return paginaMasVisitada;
     }
     
     public String clienteConMasAccesosExitosos()
     {
-        return "";
+        String ipMasAccesos = null;
+        int visitasIPMasAccesos = 0;
+        if (!accesos.isEmpty())
+        {
+            
+            for(Acceso accesoActual : accesos)
+            {
+                int numeroAcccesosIPActual = 0;                            
+                String ipActual = accesoActual.getIP();
+                
+                for (Acceso accesoActual2 : accesos)
+                {
+                    if(ipActual.equals(accesoActual2.getIP()) && accesoActual2.getHTTPCode() == 200)
+                    {
+                        numeroAcccesosIPActual++;
+                    }        
+                }
+                
+                if (numeroAcccesosIPActual > visitasIPMasAccesos)
+                {
+                    ipMasAccesos = ipActual;
+                    visitasIPMasAccesos = numeroAcccesosIPActual;
+                }
+                else if (numeroAcccesosIPActual == visitasIPMasAccesos)
+                {
+                    int octetoIPActual = Integer.parseInt(ipActual.split("\\.")[3]);
+                    int octetoIPMasAccesos = Integer.parseInt(ipActual.split("\\.")[3]);
+                    
+                    if (octetoIPActual > octetoIPMasAccesos)
+                    {
+                        ipMasAccesos = ipActual;
+                        visitasIPMasAccesos = numeroAcccesosIPActual;
+                    }                                       
+                }
+            }
+        }
+        else
+        {
+            System.out.println("No disponemos de datos.");
+        }
+                
+        return ipMasAccesos;
     }
 
 

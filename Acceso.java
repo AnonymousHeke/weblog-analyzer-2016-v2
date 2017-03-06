@@ -7,6 +7,7 @@ public class Acceso
     private int minutos;
     private String ip;
     private String web;
+    private int codhttp;
         
     public Acceso(String entradaLog)
     {
@@ -23,6 +24,8 @@ public class Acceso
        hora = Integer.parseInt(entradasLog[4]);
        minutos = Integer.parseInt(entradasLog[5]);
        web = entradasLog[6];
+       codhttp = Integer.parseInt(entradasLog[7]);
+       
     }
     
     public int getAno() 
@@ -49,4 +52,20 @@ public class Acceso
     {
         return minutos;
     }
+    
+    public String getWeb()
+    {
+        return web;
+    }
+    
+    public String getIP()
+    {
+        return ip;
+    }
+    
+    public int getHTTPCode()
+    {
+        return codhttp;
+    }
+    
 }
